@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script>
+      (function () {
+        var l = window.location;
+        var path = l.pathname;
+        var known = ['/characters', '/setup'];
+        var prefix = '';
+        var route = '/';
+        for (var i = 0; i < known.length; i++) {
+          var idx = path.indexOf(known[i]);
+          if (idx !== -1) {
+            prefix = path.slice(0, idx + 1);
+            route = path.slice(idx);
+            break;
+          }
+        }
+        if (!prefix) {
+          var parts = path.split('/').filter(Boolean);
+          if (parts.length > 1) {
+            prefix = '/' + parts[0] + '/';
+            route = '/' + parts.slice(1).join('/');
+          } else {
+            prefix = '/';
+            route = path || '/';
+          }
+        }
+        var target = l.protocol + '//' + l.host + prefix + '#' + route + l.search + l.hash;
+        l.replace(target);
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
